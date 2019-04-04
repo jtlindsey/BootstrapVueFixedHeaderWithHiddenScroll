@@ -1,58 +1,133 @@
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
-    <p>
-      For a guide and recipes on how to configure / customize this project,<br>
-      check out the
-      <a href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>.
-    </p>
-    <h3>Installed CLI Plugins</h3>
-    <ul>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-babel" target="_blank" rel="noopener">babel</a></li>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-eslint" target="_blank" rel="noopener">eslint</a></li>
-    </ul>
-    <h3>Essential Links</h3>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank" rel="noopener">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank" rel="noopener">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank" rel="noopener">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank" rel="noopener">Twitter</a></li>
-      <li><a href="https://news.vuejs.org" target="_blank" rel="noopener">News</a></li>
-    </ul>
-    <h3>Ecosystem</h3>
-    <ul>
-      <li><a href="https://router.vuejs.org" target="_blank" rel="noopener">vue-router</a></li>
-      <li><a href="https://vuex.vuejs.org" target="_blank" rel="noopener">vuex</a></li>
-      <li><a href="https://github.com/vuejs/vue-devtools#vue-devtools" target="_blank" rel="noopener">vue-devtools</a></li>
-      <li><a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
-    </ul>
+    <h1 style="display: inline-block">Fixed Header Table</h1>
+    <h4 style="display: inline-block"> ...with hidden scroll bar</h4>
+
+    <b-container fluid class="table-container">
+      <b-table
+        show-empty
+        striped 
+        hover
+        small="small"
+        stacked="md"
+        :items="items" 
+        :fields="fields" 
+        caption-top
+      >
+        <template slot="table-caption">Fixed header table with hidden scroll bar.</template>
+      </b-table>
+    </b-container>
+
   </div>
 </template>
 
 <script>
+import jsonData from './data.json'
+
 export default {
   name: 'HelloWorld',
   props: {
     msg: String,
   },
+  data() {
+    return {
+      fields: ['first_name', 'last_name', 'age'],
+      // Data generated from https://www.json-generator.com/
+      items: jsonData
+    }
+  }
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-h3 {
-  margin: 40px 0 0;
+<style>
+.table-container {
+	 height: calc(100vh - 450px);
 }
-ul {
-  list-style-type: none;
-  padding: 0;
+ .table-container table {
+	 display: flex;
+	 flex-flow: column;
+	 height: 100%;
+	 width: 100%;
 }
-li {
-  display: inline-block;
-  margin: 0 10px;
+ .table-container table thead {
+	 flex: 0 0 auto;
+	 width: 100%;
 }
-a {
-  color: #42b983;
+ .table-container table tbody {
+	 flex: 1 1 auto;
+	 display: block;
+	 width: 100%;
+	 overflow-y: auto;
 }
+ .table-container table tbody tr {
+	 width: 100%;
+}
+ .table-container table thead, .table-container table tbody tr {
+	 display: table;
+	 table-layout: fixed;
+}
+ .table-container table {
+	 border-collapse: collapse;
+}
+ .table-container table td, .table-container table th {
+	 padding: 0.4em;
+}
+ .table-container table th {
+	 border: 1px solid black;
+	 font-size: 0.7vw;
+}
+ .table-container table td {
+	 border: 1px solid #e7e1e1;
+	 font-size: 0.85em;
+	/* necessary to set for proper "showing row x of y" calculations if infinate scoll */
+	 white-space: nowrap;
+	 text-align: center;
+	 padding: 10px 5px;
+	 white-space: nowrap;
+	 text-overflow: ellipsis;
+}
+ .table-container table thead {
+	 border: 2px solid #0F0FA3;
+}
+ .table-container th {
+	 background-color: #0F0FA3;
+	 color: #b5aba4;
+	 cursor: pointer;
+	 -webkit-user-select: none;
+   -moz-user-select: none !important;
+	 -ms-user-select: none;
+	 user-select: none;
+}
+ .table-container table tbody td {
+	 padding: 8px;
+	 cursor: pointer;
+}
+ .table-container table tbody tr:hover {
+	 background-color: rgba(168, 168, 239, .5);
+}
+ .table-container table thead td {
+	 padding: 10px 5px;
+}
+ .table-container tr:nth-child(even) {
+	 background-color: rgba(168, 168, 239, 1);
+}
+
+/* START Adjustments for width and scrollbar hidden */
+ .table-container th.table-action, .table-container td.table-action {
+	 width: 5.8vw;
+}
+ .table-container table thead {
+	 width: calc(100% - 1px);
+}
+ .table-container table tbody::-webkit-scrollbar {
+	 width: 1px;
+}
+ .table-container table tbody::-webkit-scrollbar {
+	 width: 1px;
+}
+ .table-container table tbody::-webkit-scrollbar-thumb {
+	 width: 1px;
+}
+/* END Adjustments for width and scrollbar */
 </style>
